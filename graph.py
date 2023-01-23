@@ -19,7 +19,3 @@ indegree_list.sort()
 print(indegree_list[-1])
 outdegree_list.sort()
 print(outdegree_list[-1])
-
-
-plt.hist(outdegree_list,bins = 50)
-plt.show()
