@@ -21,5 +21,6 @@ def dataframegraph(fichier):
     
     return newnewfile
     
+edge_df = dataframegraph('data/instagram_accounts.csv')
     
 
