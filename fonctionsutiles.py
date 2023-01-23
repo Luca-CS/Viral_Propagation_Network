@@ -15,8 +15,8 @@ def dataframegraph(fichier):
         rowid = row['id_user']
         string = listefollowers[1:-1]
         for follower in list(string.split(', ')):    
-            dico['id'].append(rowid)
-            dico['follow'].append(int(follower))        
+            dico['id'].append(int(follower))
+            dico['follow'].append(rowid)        
     newnewfile = pd.DataFrame(dico) 
     
     return newnewfile
