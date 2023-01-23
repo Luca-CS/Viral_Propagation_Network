@@ -10,17 +10,21 @@ account_df = readcsv('data/instagram_accounts.csv')
 
 def dataframegraph(fichier):
     file = readcsv(fichier)
-    newfile = file[['id_user','id_followers']]
+    newfile = file[['id_user','id_followers','nb_followers']]
 
     dico = {'id': [], 'follow': []}
+    
     for index, row in newfile.iterrows():
         listefollowers = row['id_followers']
         rowid = row['id_user']
         string = listefollowers[1:-1]
         for follower in list(string.split(', ')):    
             dico['id'].append(int(follower))
-            dico['follow'].append(rowid)        
+            dico['follow'].append(rowid)   
+
     newnewfile = pd.DataFrame(dico) 
+
+
     
     return newnewfile
     
@@ -44,5 +48,21 @@ def arborescence():
     return father_dic 
 
 
-print(account_df)
-followers_df = account_df[['id_user','nb_follower','id_followers']]
+#The following code allowed to check that the followers list and numbers of followers where consistent 
+""" 
+followers_df = account_df[['id_user','nb_followers','id_followers']]
+
+max = 0
+for index, row in followers_df.iterrows():
+    listefollowers = row['id_followers']
+    rowid = row['id_user']
+    nb = row['nb_followers']
+    string = listefollowers[1:-1]
+    lst = list(string.split(', '))
+    if len(lst) != nb:
+        print('AAAAAAA')
+    if max < nb:
+        max = nb
+
+print(max)
+"""
