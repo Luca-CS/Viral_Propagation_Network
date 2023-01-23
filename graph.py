@@ -1,0 +1,1 @@
+# Creates graphs from the data and extract information about them
