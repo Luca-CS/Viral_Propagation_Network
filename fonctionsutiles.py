@@ -5,6 +5,9 @@ def readcsv(fichier):
     file = pd.read_csv(fichier)
     return file
 
+post_df = readcsv('data/instagram_posts_0911_1111.csv')
+account_df = readcsv('data/instagram_accounts.csv')
+
 def dataframegraph(fichier):
     file = readcsv(fichier)
     newfile = file[['id_user','id_followers']]
@@ -22,9 +25,6 @@ def dataframegraph(fichier):
     return newnewfile
     
 edge_df = dataframegraph('data/instagram_accounts.csv')
-post_df = readcsv('data/instagram_posts_0911_1111.csv')
-
-
 
 def arborescence():
     father_df = post_df[['id_post','id_post_origin']]
@@ -42,4 +42,7 @@ def arborescence():
             father_dic[row['id_post']] = 1 + father_dic[father]  
     
     return father_dic 
-                 
+
+
+print(account_df)
+followers_df = account_df[['id_user','nb_follower','id_followers']]
