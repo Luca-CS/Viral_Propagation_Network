@@ -1,24 +1,26 @@
 import pandas as pd
 
 
-# Useful functions on dataframes 
-
 def readcsv(fichier):
-    
-    # Lit un fichier CSV 
+    """
+    Lit un fichier CSV 
+    """
     
     file = pd.read_csv(fichier)
     return file
 
+# Useful functions on account dataframes 
+
+
 def find_doublon(fichier):
+    """_summary_
+
+    Args:
+        fichier (chemin): Chemin vers le ficier de la DF
+
+    Returns:
+        lst: liste des indices en double
     """
-    Trouve les doublons d'identifiant 
-    Entrée 
-        - Chemin du fichier
-    Sortie 
-        - Liste des doublons
-    """
-    
     file = readcsv(fichier)
     lst_double = []
     dico = {}
@@ -37,7 +39,8 @@ def clean_dataframe(fichier):
     Entrée 
         - Chemin du fichier
     Sortie 
-        - Dataframe exploitable"""
+        - Dataframe exploitable
+    """
 
     file  = readcsv(fichier)
     lst = find_doublon(fichier)
@@ -104,6 +107,14 @@ def clean_dataframe(fichier):
     return(clean_file)
 
 def dataframegraph(dataframe):
+    """_summary_
+
+    Args:
+        dataframe (DF): La dataframe nettoyée
+
+    Returns:
+        newnewfile (): la Dataframe des arrètes
+    """
     newfile = dataframe[['id_user', 'id_followers']]
     dico = {'id': [], 'follow': []}
     for index, row in newfile.iterrows():
@@ -115,9 +126,25 @@ def dataframegraph(dataframe):
     newnewfile = pd.DataFrame(dico)
     return newnewfile
 
+
+# Useful dataframes 
+
+post_df = readcsv('data/instagram_posts_0911_1111.csv')
+account_df = readcsv('data/instagram_accounts.csv')
+cleaned_account = clean_dataframe('data/instagram_accounts.csv')
+edge_df = dataframegraph(cleaned_account)
+
+
+
+# Useful functions on account dataframe
+
 def arborescence():
+    """_summary_
+
+    Returns:
+        dictionnaire: dictionnaire disant le combientième repost est chaque post (0 -> original)
+    """
     father_df = post_df[['id_post', 'id_post_origin']]
-    print(father_df)
     id_list = []
     for index, row in father_df.iterrows():
         id_list.append(row['id_post'])
@@ -132,12 +159,23 @@ def arborescence():
 
     return father_dic
 
-# Useful dataframes 
+def repost_num():
+    """_summary_
 
-post_df = readcsv('data/instagram_posts_0911_1111.csv')
-account_df = readcsv('data/instagram_accounts.csv')
-cleaned_account = clean_dataframe('data/instagram_accounts.csv')
-edge_df = dataframegraph(cleaned_account)
+    Returns:
+        dictionnaire: Dictionnaire donnant combiend de fois un post est reposté
+    """
+    dico = {}
+    father_df = post_df[['id_post', 'id_post_origin']]
+    
+    for index, row in father_df.iterrows():
+        father = row['id_post_origin'] 
+        if father in dico:
+            dico[father] += 1
+        else :
+            dico[father] = 1
+    
+    return dico
 
 
 # The following code allowed to check various things,, it has useful bits to copy and paste
