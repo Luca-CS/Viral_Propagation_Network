@@ -1,18 +1,14 @@
 import pandas as pd
 
 
+# Useful functions on dataframes 
+
 def readcsv(fichier):
     
     # Lit un fichier CSV 
     
     file = pd.read_csv(fichier)
     return file
-
-
-post_df = readcsv('data/instagram_posts_0911_1111.csv')
-account_df = readcsv('data/instagram_accounts.csv')
-
-
 
 def find_doublon(fichier):
     """
@@ -107,8 +103,6 @@ def clean_dataframe(fichier):
     
     return(clean_file)
 
-cleaned_account = clean_dataframe('data/instagram_accounts.csv')
-
 def dataframegraph(dataframe):
     newfile = dataframe[['id_user', 'id_followers']]
     dico = {'id': [], 'follow': []}
@@ -120,8 +114,6 @@ def dataframegraph(dataframe):
             dico['follow'].append(rowid)
     newnewfile = pd.DataFrame(dico)
     return newnewfile
-
-edge_df = dataframegraph(cleaned_account)
 
 def arborescence():
     father_df = post_df[['id_post', 'id_post_origin']]
@@ -139,6 +131,13 @@ def arborescence():
             father_dic[row['id_post']] = 1 + father_dic[father]
 
     return father_dic
+
+# Useful dataframes 
+
+post_df = readcsv('data/instagram_posts_0911_1111.csv')
+account_df = readcsv('data/instagram_accounts.csv')
+cleaned_account = clean_dataframe('data/instagram_accounts.csv')
+edge_df = dataframegraph(cleaned_account)
 
 
 # The following code allowed to check various things,, it has useful bits to copy and paste
