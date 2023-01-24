@@ -43,6 +43,3 @@ def arborescence():
     
     return father_dic 
 
-
-print(account_df)
-followers_df = account_df[['id_user','nb_follower','id_followers']]
