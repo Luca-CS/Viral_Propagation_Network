@@ -136,7 +136,7 @@ edge_df = dataframegraph(cleaned_account)
 
 
 
-# Useful functions on account dataframe
+# Useful functions about account dataframe
 
 def arborescence():
     """_summary_
@@ -176,6 +176,49 @@ def repost_num():
             dico[father] = 1
     
     return dico
+
+def time(row):
+    """_summary_
+
+    Args:
+        row (Row of a DF): A row on the post DF
+
+    Returns:
+        t (int): Time since 09/11/2017 at 00:00 am
+    """
+    date = row['date']
+    hour = row['time']
+    half = row['half_day']
+    
+    t = 0
+    
+    date = date.split('/')
+    hour = hour.split(':')
+    
+    if half == 'pm':
+        t += 12 * 60
+    
+    day = date[0]
+    if day == '10':
+        t += 24 * 60
+    elif day == '11':
+        t += 48 * 60
+    
+    t += int(hour[0]) * 60 + int(hour[1])
+    
+    return t
+
+def time_of_posts():
+    dic = {}
+    
+    for index, row in post_df.iterrows():
+        t = time(row)
+        dic[int(row['id_post'])] = t
+    
+    return dic
+
+print(time_of_posts())
+
 
 
 # The following code allowed to check various things,, it has useful bits to copy and paste
