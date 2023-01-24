@@ -14,15 +14,6 @@ for vertex in network.vs:
     indegree_list.append(vertex.indegree())
     outdegree_list.append(vertex.outdegree())
     dico = vertex.attributes()
-    if outdegree_list[-1] == 199:
-        print(len(vertex.all_edges()))
-        print(vertex.indegree())
-        print(vertex.outdegree())
-        print(dico['name'])
-
-        
-        
-    
 
 
 indegree_list.sort()
