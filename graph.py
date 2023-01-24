@@ -6,13 +6,14 @@ import matplotlib.pyplot as plt
 
 print(edge_df)
 
-network = ig.Graph.DataFrame(edge_df, directed = True)
+network = ig.Graph.DataFrame(edges = edge_df, directed = True)
 
 indegree_list = []
 outdegree_list = []
 for vertex in network.vs:
     indegree_list.append(vertex.indegree())
     outdegree_list.append(vertex.outdegree())
+    dico = vertex.attributes()
 
 
 indegree_list.sort()
