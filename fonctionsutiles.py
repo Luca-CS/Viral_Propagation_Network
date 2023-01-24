@@ -217,8 +217,6 @@ def time_of_posts():
     
     return dic
 
-print(time_of_posts())
-
 
 
 # The following code allowed to check various things,, it has useful bits to copy and paste
