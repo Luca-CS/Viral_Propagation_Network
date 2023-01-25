@@ -3,6 +3,8 @@ import numpy as np
 # This file (main?) will use the other ones to simulate the spreading process
 # Here, we have access to a global dictionnary of vertex characteristics
 
+from numpy.random import choice
+
 # Global variables :
 
 """Dictionnaire des individus
@@ -29,7 +31,7 @@ for index, row in cleaned_account.iterrows():
     
         
             
-def post(poster,network,scores):
+def post(poster,network,scores,dico):
     # To do list : 
     # Likes, comments, site visits, donations, 
     # REPOST
@@ -38,7 +40,7 @@ def post(poster,network,scores):
     
     action_dic = action_number(poster)
     rank_lst = post_rank(poster,network,scores)
-    choice_dic= choice(action_dic, rank_lst)
+    choice_dic= choose(action_dic, rank_lst)
     action_update(choice_dic)
     
     #For the reposts 
@@ -46,7 +48,7 @@ def post(poster,network,scores):
     
     return 
 
-def action_number(poster):
+def action_number(poster,dico):
     # Returns a dictionnary of the number of persons doing each action
     action_dic = {'view': 0, 'like': 0, 'comment': 0, 'click': 0, 'donate':0}
     
@@ -56,22 +58,47 @@ def action_number(poster):
     return action_dic
     
 
-def score(network):
+def score(network,dico):
     score_dic = {}
     # Donne le score global sans prendre en compte les follows
+    for user in dico:
+        s = 0
+        user_d = dico[user]
+        
+        view = user_d['view'][0]
+        likes = user_d['like'][0]
+        comm = user_d['comment'][0]
+        click = user_d['clicks'][0]
+        donate = user_d['donation'][0]
+        inf = user_d['influenciability'][0]
+        
+        s += view + 20*likes + 200*comm + 400*click + 4000 * donate + inf
+        s *= (inf+1)/2
+        
+        score_dic[user] = s
     return score_dic
+        
 
-def post_rank(poster,network,score_dic):
-    rank_lst = []
+def post_rank(graph,poster,network,score_dic,dico):    
     # Ajoute le score propre à la relation de follow et trie la liste
-    return rank_lst
+    for key in score_dic:
+        score = score_dic[key]
+        if graph.are_connected(key,poster):
+            score *= 2
+        score_dic[key] = score
+    return sorted(score_dic, key=score_dic.get, reverse=True)
+    
 
-def choice(action_dic,rank_lst):
+
+def choose(action_dic,rank_lst,dico):
     # Outputs the choice dictionnary where a list reprensetns the user_ids that will do the actions
+    #view_choice = choice(rank_lst, action_dic['view'],p = )
     choice_dic = {'view': [], 'like': [], 'comment': [], 'click': [], 'donate':[]}
+    for key in choice_dic:
+        choice_dic[key] = rank_lst[0:action_dic[key]]
     return choice_dic
 
-def action_update(choice_dic):
+def action_update(choice_dic,dico):
     # Updates the values of the dictionnary absed on the actions done (changes second value of tuple)
     # Returns nothing
     return 
@@ -80,8 +107,8 @@ def action_update(choice_dic):
 
 def update(dico,g):
     #Prend en argument le dictionnaire de personnes à un instant et le réseau et fait le pas de temps suivant
-    general_score = score(g)
+    general_score = score(g,dico)
     for person in dico:
-        if dico[person]['is_posting'] == 1:
-            post(person,g,general_score)
+        if dico[person]['is_posting'][0] == 1:
+            post(person,g,general_score,dico)
     
