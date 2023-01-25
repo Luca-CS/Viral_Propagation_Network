@@ -155,4 +155,5 @@ def posts_initiaux(dico, listeid):
 posts_initiaux(dico,[483543,672702,587566,474227])
 
 update(dico,network)
-print(dico)
+for key in dico:
+    print ((dico[key]['total_views'],dico[key]['total_likes'],dico[key]['total_comments']))
