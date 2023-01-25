@@ -5,7 +5,7 @@ import random
 
 account = cleaned_account
 posts = post_df
-
+posts = posts.drop(index=1129)
 
 # Creation of a dictionary with each user id and information of the user
 
@@ -24,8 +24,9 @@ def dico_tot(p):  # p : percentage of followers who saw the post
                              'total_views': 0,
                              'views_bf_post': 0,
                              'id_followers': row.id_followers,
-                             'id_following': row.id_following
-
+                             'id_following': row.id_following,
+                             'is_posting': 0,
+                             'influenciabilty': 0  # needs to be changed based on network
                              }  # Parameters we consider have an impact on the post propagation
 
     for index, row in posts.iterrows():
