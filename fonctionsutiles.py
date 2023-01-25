@@ -8,9 +8,7 @@ def readcsv(fichier):
     file = pd.read_csv(fichier)
     return file
 
-
-post_df = readcsv('data/instagram_posts_0911_1111.csv')
-account_df = readcsv('data/instagram_accounts.csv')
+# Useful functions to clean the dataframes 
 
 
 # Useful functions on account dataframes
@@ -117,6 +115,19 @@ def clean_dataframe(fichier):
     return (clean_file)
 
 
+def clean_posts():
+    lst  = find_doublon('data/instagram_accounts.csv')
+    post_df = readcsv('data/instagram_posts_0911_1111.csv')
+    
+    for index_row,row in post_df.iterrows():
+        if row.id_user in lst:
+            post_df.drop(index = index_row, inplace=True)
+
+    return(post_df)
+    
+            
+        
+
 def dataframegraph(dataframe):
     """_summary_
 
@@ -141,8 +152,14 @@ def dataframegraph(dataframe):
 # Useful dataframes
 
 
+account_df = readcsv('data/instagram_accounts.csv')
 cleaned_account = clean_dataframe('data/instagram_accounts.csv')
 edge_df = dataframegraph(cleaned_account)
+
+post_df = clean_posts()
+
+
+
 
 
 
@@ -230,11 +247,8 @@ def time_of_posts():
         dic[int(row['id_post'])] = t
 
     return dic
-
-
-print(time_of_posts())
-
-
+    
+    
 # The following code allowed to check various things,, it has useful bits to copy and paste
 
 """ 
@@ -282,4 +296,3 @@ for index, row in edge_df.iterrows():
         dico_test[id] = 1
 
 print(dico_test)"""
-'''
