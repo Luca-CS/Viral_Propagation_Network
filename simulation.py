@@ -21,7 +21,7 @@ for index, row in cleaned_account.iterrows():
                          'posting': 0, # first number = is posting at this timestamp, second number = will post at the next timestamp)
                          'posted': 0, # 1 if the user already posted something, turns back to 0 after a while (so that the user can post again)
                          'iterations_since_post':0,
-                         'influencability' : 0,
+                         'influencability' : 1,
                          'seuil_repost' : 0 
                         }  # Parameters we consider have an impact on the post propagation
 
