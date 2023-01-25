@@ -235,7 +235,7 @@ def time_of_posts():
     return dic
     
     
-# The following code allowed to check various things,, it has useful bits to copy and paste
+# The following code allowed to check various things, it has useful bits to copy and paste
 
 """ 
 followers_df = account_df[['id_user','nb_followers','id_followers']]

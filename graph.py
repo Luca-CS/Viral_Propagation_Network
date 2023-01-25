@@ -15,8 +15,3 @@ for vertex in network.vs:
     outdegree_list.append(vertex.outdegree())
     dico = vertex.attributes()
 
-
-indegree_list.sort()
-print(indegree_list[-1])
-outdegree_list.sort()
-print(outdegree_list[-1])
