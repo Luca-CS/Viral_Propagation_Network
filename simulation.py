@@ -21,7 +21,7 @@ for index, row in cleaned_account.iterrows():
                          'posting': 0, # first number = is posting at this timestamp, second number = will post at the next timestamp)
                          'posted': 0, # 1 if the user already posted something, turns back to 0 after a while (so that the user can post again)
                          'iterations_since_post':0,
-                         'influencability' : 0,
+                         'influencability' : 1,
                          'seuil_repost' : int(np.random.uniform(0,20))
                         }  # Parameters we consider have an impact on the post propagation
 
@@ -45,15 +45,6 @@ def post(poster,network,scores,dico):
     rank_lst = post_rank(poster,network,scores)
     choice_dic= choose(action_dic, rank_lst)
     action_update(choice_dic)
-    
-    #For the reposts 
-    
-    for key in dico:
-        if (dico[key]['seuil_repost'] < dico[key]['total_views']) and (dico[key]['posted'] != 1):
-            dico[key]['posting'] = 1
-        if dico[key]['posting'] == 1:
-            dico[key]['posting'] = 0
-            dico[key]['posted'] = 1
 
     return dico
 
@@ -75,7 +66,7 @@ def action_number(poster,dico):
     action_dic['donate']=nb_donate
     
     return action_dic
-
+    
 
 def score(network,dico):
     score_dic = {}
@@ -146,4 +137,11 @@ def update(dico,g):
     for person in dico:
         if dico[person]['is_posting'][0] == 1:
             post(person,g,general_score,dico)
+    
+    for key in dico:
+        if dico[key]['posting'] == 1:
+            dico[key]['posting'] = 0
+            dico[key]['posted'] = 1
+        elif (dico[key]['seuil_repost'] < dico[key]['total_views']) and (dico[key]['posted'] != 1):
+            dico[key]['posting'] = 1
     
