@@ -38,7 +38,7 @@ def find_doublon(fichier):
 print("Les doublons sont :", find_doublon('data/instagram_accounts.csv'))
 
 
-'''
+
 def clean_dataframe(fichier):
     """
     Nettoie les donnes et donne un tableau exploitable en sortie
@@ -155,7 +155,6 @@ def dataframegraph(dataframe):
 account_df = readcsv('data/instagram_accounts.csv')
 cleaned_account = clean_dataframe('data/instagram_accounts.csv')
 edge_df = dataframegraph(cleaned_account)
-
 post_df = clean_posts()
 
 
