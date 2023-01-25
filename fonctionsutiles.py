@@ -246,6 +246,19 @@ def time_of_posts():
         dic[int(row['id_post'])] = t
 
     return dic
+
+
+def post_num():
+    dic = {}
+    for index, row in post_df.iterrows():
+        id = row.id_user
+        if id in dic:
+            dic[id] += 1
+        else:
+            dic[id] = 1
+    return dic
+
+print(post_num())    
     
     
 # The following code allowed to check various things, it has useful bits to copy and paste
