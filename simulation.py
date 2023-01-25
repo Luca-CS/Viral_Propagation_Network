@@ -18,9 +18,11 @@ for index, row in cleaned_account.iterrows():
                          'total_comments': 0,
                          'total_click': 0,
                          'total_donations': 0,
-                         'posting': (0,0), # first number = is posting at this timestamp, second number = will post at the next timestamp)
+                         'posting': 0, # first number = is posting at this timestamp, second number = will post at the next timestamp)
                          'posted': 0, # 1 if the user already posted something, turns back to 0 after a while (so that the user can post again)
-                         'iterations_since_post':0
+                         'iterations_since_post':0,
+                         'influencability' : 0,
+                         'seuil_repost' : 0 
                         }  # Parameters we consider have an impact on the post propagation
 
 
@@ -45,8 +47,14 @@ def post(poster,network,scores,dico):
     
     #For the reposts 
     
-    
-    return 
+    for key in dico:
+        if (dico[key]['seuil_repost'] < dico[key]['total_views']) and (dico[key]['posted'] != 1):
+            dico[key]['posting'] = 1
+        if dico[key]['posting'] == 1:
+            dico[key]['posting'] = 0
+            dico[key]['posted'] = 1
+
+    return dico
 
 def action_number(poster,dico):
     # Returns a dictionnary of the number of persons doing each action
@@ -65,11 +73,11 @@ def score(network,dico):
         s = 0
         user_d = dico[user]
         
-        view = user_d['view'][0]
-        likes = user_d['like'][0]
-        comm = user_d['comment'][0]
-        click = user_d['clicks'][0]
-        donate = user_d['donation'][0]
+        view = user_d['total_views'][0]
+        likes = user_d['total_likes'][0]
+        comm = user_d['total_comments'][0]
+        click = user_d['total_click'][0]
+        donate = user_d['total_donations'][0]
         inf = user_d['influenciability'][0]
         
         s += view + 20*likes + 200*comm + 400*click + 4000 * donate + inf
@@ -77,7 +85,7 @@ def score(network,dico):
         
         score_dic[user] = s
     return score_dic
-        
+   
 
 def post_rank(graph,poster,network,score_dic,dico):    
     # Ajoute le score propre à la relation de follow et trie la liste
