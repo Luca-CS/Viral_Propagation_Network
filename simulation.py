@@ -1,3 +1,4 @@
+from fonctionsutiles import *
 # This file (main?) will use the other ones to simulate the spreading process
 # Here, we have access to a global dictionnary of vertex characteristics
 
