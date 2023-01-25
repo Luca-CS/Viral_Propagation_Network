@@ -109,9 +109,25 @@ def choose(action_dic,rank_lst,dico):
     return choice_dic
 
 def action_update(choice_dic,dico):
+    
+    #vues:
+    for id in choice_dic['view']:
+        dico[id]['total_views']+=1
+    #like:
+    for id in choice_dic['like']:
+        dico[id]['total_likes']+=1
+    #comment:
+    for id in choice_dic['comment']:
+        dico[id]['total_comments']+=1
+    #click:
+    for id in choice_dic['click']:
+        dico[id]['total_click']+=1
+    #dons:
+    for id in choice_dic['donate']:
+        dico[id]['total_donations']+=1
     # Updates the values of the dictionnary absed on the actions done (changes second value of tuple)
     # Returns nothing
-    return 
+    return dico
 
 # Final function
 
