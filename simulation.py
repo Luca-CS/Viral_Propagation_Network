@@ -26,7 +26,7 @@ for index, row in cleaned_account.iterrows():
                         }  # Parameters we consider have an impact on the post propagation
 
 
-
+network = ig.Graph.DataFrame(edges = edge_df, directed = True)
 
 
 
@@ -89,7 +89,7 @@ def score(network,dico):
     return score_dic
    
 
-def post_rank(graph,poster,network,score_dic,dico):    
+def post_rank(graph,poster,score_dic):    
     # Ajoute le score propre à la relation de follow et trie la liste
     for key in score_dic:
         score = score_dic[key]
@@ -100,12 +100,12 @@ def post_rank(graph,poster,network,score_dic,dico):
     
 
 
-def choose(action_dic,rank_lst,dico):
+def choose(action_dic,rank_lst):
     # Outputs the choice dictionnary where a list reprensetns the user_ids that will do the actions
     #view_choice = choice(rank_lst, action_dic['view'],p = )
     choice_dic = {'view': [], 'like': [], 'comment': [], 'click': [], 'donate':[]}
     for key in choice_dic:
-        choice_dic[key] = rank_lst[0:action_dic[key]]
+        choice_dic[key] = rank_lst[:action_dic[key]]
     return choice_dic
 
 def action_update(choice_dic,dico):
@@ -133,10 +133,10 @@ def action_update(choice_dic,dico):
 
 def update(dico,g):
     #Prend en argument le dictionnaire de personnes à un instant et le réseau et fait le pas de temps suivant
-    general_score = score(g,dico)
+    general_score = score(g,dico)       #dictionnaire avec id en clé et score en valeur
     for person in dico:
-        if dico[person]['is_posting'][0] == 1:
-            post(person,g,general_score,dico)
+        if dico[person]['is_posting'] == 1:
+            dico = post(person,g,general_score,dico)
     
     for key in dico:
         if dico[key]['posting'] == 1:
@@ -144,4 +144,13 @@ def update(dico,g):
             dico[key]['posted'] = 1
         elif (dico[key]['seuil_repost'] < dico[key]['total_views']) and (dico[key]['posted'] != 1):
             dico[key]['posting'] = 1
+
+def posts_initiaux(dico, listeid):
+    for id in listeid:
+        dico[id]['posting']=1
+    return
     
+    
+posts_initiaux(dico,[483543,672702,587566,474227])
+
+update(dico,network)
