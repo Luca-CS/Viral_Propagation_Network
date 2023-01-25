@@ -270,4 +270,4 @@ plt.legend()
 plt.show()
 '''
 
-print(np.random.binomial(10,0.5))
+print(np.random.uniform(0,20))
