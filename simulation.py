@@ -1,3 +1,4 @@
+from fonctionsutiles import *
 # This file (main?) will use the other ones to simulate the spreading process
 # Here, we have access to a global dictionnary of vertex characteristics
 
@@ -5,6 +6,19 @@
 
 """Dictionnaire des individus
     Paramètres de vue, like, comment, click, donate"""
+
+dico = {}
+for index, row in cleaned_account.iterrows():
+        # initialisation of the dictionary with basics caracterisitcs
+    dico[row.id_user] = {'total_views': 0,
+                         'total_likes': 0,
+                         'total_comments': 0,
+                         'total_click': 0,
+                         'total_donations': 0,
+                         'posting': (0,0), # first number = is posting at this timestamp, second number = will post at the next timestamp)
+                         'posted': 0, # 1 if the user already posted something, turns back to 0 after a while (so that the user can post again)
+                         'iterations_since_post':0
+                        }  # Parameters we consider have an impact on the post propagation
 
 
 

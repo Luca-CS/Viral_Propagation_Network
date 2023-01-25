@@ -158,10 +158,14 @@ plt.show()
 
 '''
 '''
-plt.hist(post_df['views'], bins = 20)
+post_df2 = readcsv('data/instagram_posts_1211_1611.csv')
+
+plt.hist(post_df['views'], bins = 100)
 plt.xlabel('nombre de views')
 plt.ylabel("nombre d'occurences")
 plt.show()
+
+'''
 '''
 dico = {}
 
@@ -187,4 +191,57 @@ plt.scatter(X,Y)
 plt.xlabel('nombre de posts sur le compte insta qui poste')
 plt.ylabel('views par post en moyenne')
 plt.show()
+'''
+'''
+dico = {}
 
+for i in account_df.index:
+    id_account = account_df['id_user'][i]
+    if id_account not in dico :
+        followers = account_df['nb_followers'][i]
+        df = post_df[post_df['id_user']==id_account]        #dataframe avec que les posts de ce user
+        if len(df.index) != 0:
+            somme = 0
+            for k in df.index:
+                somme+= df['reposts'][k]
+            dico[id_account]=[followers,somme/len(df.index)]
+
+X = []
+Y = []
+
+for cle in dico :
+    X.append(dico[cle][0])
+    Y.append(dico[cle][1])
+                
+plt.scatter(X,Y)
+plt.xlabel('nombre de followers')
+plt.ylabel('reposts par post en moyenne')
+plt.show()
+'''
+'''
+def normale(sigma,mu,k):
+    return 1800*np.exp(-((k-mu)/sigma)**2/2)/(sigma*np.sqrt(2*np.pi))
+
+X = [i for i in range(20)]
+Y = [normale(2,1,x) for x in X]
+plt.plot(X,Y,color='r', label='sigma = 2, mu = 1')
+
+plt.hist(post_df['reposts'], bins = 20)
+plt.xlabel('nombre de reposts')
+plt.ylabel("nombre d'occurences")
+plt.legend()
+plt.show()
+'''
+'''
+def exp(l,k):
+    return 450*np.exp(-l*k)
+
+X = [i for i in range(40)]
+Y = [exp(0.2,x) for x in X]
+plt.hist(post_df['comments'], bins = 20)
+plt.plot(X,Y,color='r', label='lambda = 0.2')
+plt.xlabel('nombre de comments')
+plt.ylabel("nombre d'occurences")
+plt.legend()
+plt.show()
+'''
