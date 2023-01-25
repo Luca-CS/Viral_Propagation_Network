@@ -41,10 +41,10 @@ def post(poster,network,scores,dico):
     
     # Variables : vertex id, the graph, a score dictionnary
     
-    action_dic = action_number(poster)
-    rank_lst = post_rank(poster,network,scores)
+    action_dic = action_number(poster,dico)
+    rank_lst = post_rank(network,poster,scores)
     choice_dic= choose(action_dic, rank_lst)
-    action_update(choice_dic)
+    dico = action_update(choice_dic,dico)
 
     return dico
 
