@@ -1,6 +1,7 @@
 from fonctionsutiles import *
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.stats as st
 
 '''
 #reposts par rapport aux views
@@ -83,26 +84,28 @@ plt.ylabel('ratio (likes/followers) par post en moyenne')
 plt.show()
         
 '''
+'''
 def exp(l,k):
-    return 1400*np.exp(-l*k)
+    return 1600*np.exp(-l*k)
 
 liste = []
 for index, row in post_df.iterrows():
     id_account = row['id_user']
     followers = int(cleaned_account[cleaned_account['id_user']==id_account]['nb_followers'])
-    likes = row['likes']
-    liste.append(likes/followers)
+    comments = row['comments']
+    liste.append(comments/followers)
    
 #print(liste)
     
-X = np.linspace(0,2,100)
-Y = [exp(6,x) for x in X]
+X = np.linspace(0,0.30,100)
+Y = [exp(30,x) for x in X]
 plt.hist(liste, bins = 20)
-plt.plot(X,Y,color='r', label='lambda = 6')
-plt.xlabel('ratio likes/followers')
+plt.plot(X,Y,color='r', label='lambda = 30')
+plt.xlabel('ratio comments/followers')
 plt.ylabel("nombre d'occurences")
+plt.legend()
 plt.show()
-
+'''
 '''
 dico = {}
 
@@ -266,3 +269,5 @@ plt.ylabel("nombre d'occurences")
 plt.legend()
 plt.show()
 '''
+
+print(np.random.binomial(10,0.5))
