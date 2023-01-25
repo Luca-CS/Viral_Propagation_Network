@@ -60,11 +60,11 @@ def action_number(poster,dico):
     nb_clicks = np.random.binomial(nb_views,320/251167)
     nb_donate = np.random.binomial(nb_views,31/251167)
     
-    action_dic['view']=nb_views
-    action_dic['like']=nb_likes
-    action_dic['comment']=nb_comments
-    action_dic['click']=nb_clicks
-    action_dic['donate']=nb_donate
+    action_dic['view']=int(nb_views)
+    action_dic['like']=int(nb_likes)
+    action_dic['comment']=int(nb_comments)
+    action_dic['click']=int(nb_clicks)
+    action_dic['donate']=int(nb_donate)
     
     return action_dic
     
@@ -94,7 +94,7 @@ def post_rank(graph,poster,score_dic):
     # Ajoute le score propre à la relation de follow et trie la liste
     for key in score_dic:
         score = score_dic[key]
-        if graph.are_connected(key,poster):
+        if graph.are_connected(int(key),int(poster)):
             score *= 2
         score_dic[key] = score
     return sorted(score_dic, key=score_dic.get, reverse=True)
@@ -155,3 +155,4 @@ def posts_initiaux(dico, listeid):
 posts_initiaux(dico,[483543,672702,587566,474227])
 
 update(dico,network)
+print(dico)
