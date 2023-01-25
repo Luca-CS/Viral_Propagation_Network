@@ -4,6 +4,7 @@ import numpy as np
 # Here, we have access to a global dictionnary of vertex characteristics
 
 from numpy.random import choice
+import igraph as ig
 
 # Global variables :
 
