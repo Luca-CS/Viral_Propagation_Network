@@ -22,7 +22,7 @@ for index, row in cleaned_account.iterrows():
                          'posting': 0, # first number = is posting at this timestamp, second number = will post at the next timestamp)
                          'posted': 0, # 1 if the user already posted something, turns back to 0 after a while (so that the user can post again)
                          'iterations_since_post':0,
-                         'influencability' : 1,
+                         'influenciability' : 1,
                          'seuil_repost' : int(np.random.uniform(0,20))
                         }  # Parameters we consider have an impact on the post propagation
 
@@ -76,12 +76,12 @@ def score(network,dico):
         s = 0
         user_d = dico[user]
         
-        view = user_d['total_views'][0]
-        likes = user_d['total_likes'][0]
-        comm = user_d['total_comments'][0]
-        click = user_d['total_click'][0]
-        donate = user_d['total_donations'][0]
-        inf = user_d['influenciability'][0]
+        view = user_d['total_views']
+        likes = user_d['total_likes']
+        comm = user_d['total_comments']
+        click = user_d['total_click']
+        donate = user_d['total_donations']
+        inf = user_d['influenciability']
         
         s += view + 20*likes + 200*comm + 400*click + 4000 * donate + inf
         s *= (inf+1)/2
@@ -136,7 +136,7 @@ def update(dico,g):
     #Prend en argument le dictionnaire de personnes à un instant et le réseau et fait le pas de temps suivant
     general_score = score(g,dico)       #dictionnaire avec id en clé et score en valeur
     for person in dico:
-        if dico[person]['is_posting'] == 1:
+        if dico[person]['posting'] == 1:
             dico = post(person,g,general_score,dico)
     
     for key in dico:

@@ -144,7 +144,7 @@ def dataframegraph(dataframe):
         rowid = row['id_user']
         for follower in listefollowers:
             dico['id'].append(int(follower))
-            dico['follow'].append(rowid)
+            dico['follow'].append(int(rowid))
     newnewfile = pd.DataFrame(dico)
     return newnewfile
 
