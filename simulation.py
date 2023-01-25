@@ -56,6 +56,7 @@ def choice(action_dic,rank_lst):
 def action_update(choice_dic):
     # Updates the values of the dictionnary absed on the actions done (changes second value of tuple)
     # Returns nothing
+    return 
 
 # Final function
 
