@@ -55,13 +55,12 @@ plt.show()
     
 '''
 '''
-
 dico = {}
 
-for i in account_df.index:
-    id_account = account_df['id_user'][i]
+for index, row in cleaned_account.iterrows():
+    id_account = row['id_user']
     if id_account not in dico :
-        followers = account_df['nb_followers'][i]
+        followers = cleaned_account[cleaned_account['id_user']==id_account]['nb_followers']
         df = post_df[post_df['id_user']==id_account]        #dataframe avec que les posts de ce user
         if len(df.index) != 0:
             somme = 0
@@ -69,6 +68,7 @@ for i in account_df.index:
                 ratio = df['likes'][k]/followers
                 somme+= ratio
             dico[id_account]=[followers,somme/len(df.index)]
+
 
 X = []
 Y = []
@@ -82,8 +82,27 @@ plt.xlabel('nombre de followers')
 plt.ylabel('ratio (likes/followers) par post en moyenne')
 plt.show()
         
-
 '''
+def exp(l,k):
+    return 1400*np.exp(-l*k)
+
+liste = []
+for index, row in post_df.iterrows():
+    id_account = row['id_user']
+    followers = int(cleaned_account[cleaned_account['id_user']==id_account]['nb_followers'])
+    likes = row['likes']
+    liste.append(likes/followers)
+   
+#print(liste)
+    
+X = np.linspace(0,2,100)
+Y = [exp(6,x) for x in X]
+plt.hist(liste, bins = 20)
+plt.plot(X,Y,color='r', label='lambda = 6')
+plt.xlabel('ratio likes/followers')
+plt.ylabel("nombre d'occurences")
+plt.show()
+
 '''
 dico = {}
 
@@ -113,7 +132,7 @@ plt.show()
 '''
 '''
 def exp(l,k):
-    return 440*np.exp(-l*k)
+    return 1200*np.exp(-l*k)
 
 X = [i for i in range(180)]
 Y = [exp(0.05,x) for x in X]
@@ -125,7 +144,9 @@ plt.legend()
 plt.show()
 
 '''
-
+'''
+print(np.random.exponential(0.05, 10))
+'''
 '''
 plt.hist(account_df['nb_followers'], bins = 20)
 plt.show()
@@ -155,8 +176,8 @@ plt.scatter(X,Y)
 plt.xlabel('nombre de followers')
 plt.ylabel('views par post en moyenne')
 plt.show()
-
 '''
+
 '''
 post_df2 = readcsv('data/instagram_posts_1211_1611.csv')
 

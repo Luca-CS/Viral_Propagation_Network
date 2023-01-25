@@ -1,4 +1,5 @@
 from fonctionsutiles import *
+import numpy as np
 # This file (main?) will use the other ones to simulate the spreading process
 # Here, we have access to a global dictionnary of vertex characteristics
 
@@ -48,6 +49,9 @@ def post(poster,network,scores):
 def action_number(poster):
     # Returns a dictionnary of the number of persons doing each action
     action_dic = {'view': 0, 'like': 0, 'comment': 0, 'click': 0, 'donate':0}
+    
+    followers = int(cleaned_account[cleaned_account['id_user']==poster]['nb_followers'])
+    nb_likes = followers*np.random.exponential(6, 1)[0]
     
     return action_dic
     

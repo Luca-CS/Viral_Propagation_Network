@@ -35,7 +35,7 @@ def find_doublon(fichier):
     return lst_double
 
 
-print("Les doublons sont :", find_doublon('data/instagram_accounts.csv'))
+#print("Les doublons sont :", find_doublon('data/instagram_accounts.csv'))
 
 
 
@@ -258,7 +258,7 @@ def post_num():
             dic[id] = 1
     return dic
 
-print(post_num())    
+#print(post_num())    
     
     
 # The following code allowed to check various things, it has useful bits to copy and paste
