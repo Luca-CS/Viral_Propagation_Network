@@ -1,6 +1,9 @@
 from fonctionsutiles import *
 import numpy as np
-# This file (main?) will use the other ones to simulate the spreading process
+import matplotlib.pyplot as plt
+import numpy as np
+
+ # This file (main?) will use the other ones to simulate the spreading process
 # Here, we have access to a global dictionnary of vertex characteristics
 
 from numpy.random import choice
@@ -154,6 +157,12 @@ def posts_initiaux(dico, listeid):
     
 posts_initiaux(dico,[483543,672702,587566,474227])
 
-update(dico,network)
+for t in range(10):
+    update(dico,network)
+
 for key in dico:
-    print ((dico[key]['total_views'],dico[key]['total_likes'],dico[key]['total_comments']))
+    L.append(dico[key]['total_click'])
+
+plt.hist(L,bins = 40)
+plt.show()
+
