@@ -2,8 +2,11 @@ from fonctionsutiles import *
 import numpy as np
 import matplotlib.pyplot as plt
 import numpy as np
+from graph import network, name_dic
+from random import choices
+import igraph as ig
 
- # This file (main?) will use the other ones to simulate the spreading process
+# This file (main?) will use the other ones to simulate the spreading process
 # Here, we have access to a global dictionnary of vertex characteristics
 
 # Global variables :
@@ -14,7 +17,7 @@ import numpy as np
 dico = {}
 for index, row in cleaned_account.iterrows():
         # initialisation of the dictionary with basics caracterisitcs
-    dico[row.id_user] = {'total_views': 0,
+    dico[name_dic[row.id_user]] = {'total_views': 0,
                          'total_likes': 0,
                          'total_comments': 0,
                          'total_click': 0,
@@ -22,27 +25,33 @@ for index, row in cleaned_account.iterrows():
                          'posting': 0, # first number = is posting at this timestamp, second number = will post at the next timestamp)
                          'posted': 0, # 1 if the user already posted something, turns back to 0 after a while (so that the user can post again)
                          'iterations_since_post':0,
-                         'influenciability' : 1,
+                         'influenciability' : choices([1,2,3], weights=(30,20,10), k=1)[0],
                          'seuil_repost' : int(np.random.uniform(0,20))
                         }  # Parameters we consider have an impact on the post propagation
 
+node_num = network.vcount()
+step = int(node_num/10)
+weight_list = []
 
-network = ig.Graph.DataFrame(edges = edge_df, directed = True)
-
+val = 1
+count = 0
+for i in range(node_num):
+    count += 1
+    weight_list.append(val)
+    if count > step:
+        count = 0
+        val *= 1.3
 
 # Functions to use
 
 def post(poster,network,scores,dico):
-    # To do list : 
-    # Likes, comments, site visits, donations, 
-    # REPOST
-    
-    # Variables : vertex id, the graph, a score dictionnary
+    # Variables : vertex id, the graph, a score dictionnary, the global dictionnary
     
     action_dic = action_number(poster,dico)
     rank_lst = post_rank(network,poster,scores)
     choice_dic= choose(action_dic, rank_lst)
     dico = action_update(choice_dic,dico)
+    
     return dico
 
 def action_number(poster,dico):
@@ -50,9 +59,9 @@ def action_number(poster,dico):
     action_dic = {'view': 0, 'like': 0, 'comment': 0, 'click': 0, 'donate':0}
     
     followers = int(cleaned_account[cleaned_account['id_user']==poster]['nb_followers'])
-    nb_views = followers*np.random.exponential(1.2, 1)[0]
-    nb_likes = followers*np.random.exponential(6, 1)[0]
-    nb_comments = followers*np.random.exponential(30, 1)[0]
+    nb_views = followers*np.random.exponential(1.5, 1)[0]
+    nb_likes = np.random.exponential(50, 1)[0]
+    nb_comments = followers*np.random.exponential(2, 1)[0]
     nb_clicks = np.random.binomial(nb_views,320/251167)
     nb_donate = np.random.binomial(nb_views,31/251167)
     
@@ -66,6 +75,8 @@ def action_number(poster,dico):
     
 
 def score(network,dico):
+    # Donne le score global des individus dans le réseau
+    
     score_dic = {}
     for user in dico:
         s = 0
@@ -100,7 +111,9 @@ def choose(action_dic,rank_lst):
     # Outputs the choice dictionnary where a list reprensetns the user_ids that will do the actions
     choice_dic = {'view': [], 'like': [], 'comment': [], 'click': [], 'donate':[]}
     for key in choice_dic:
-        choice_dic[key] = rank_lst[:action_dic[key]]
+        print(len(rank_lst))
+        print(len(weight_list))
+        choice_dic[key] = choices(rank_lst,weights = weight_list,k = action_dic[key])
     return choice_dic
 
 def action_update(choice_dic,dico):
@@ -147,12 +160,21 @@ def posts_initiaux(dico, listeid):
     
     
 posts_initiaux(dico,[483543,672702,587566,474227])
-
-for t in range(10):
+V = []
+L = []    
+Co = []
+CL = []
+D = []
+for t in range(15):
     update(dico,network)
 for key in dico:
-    L.append(dico[key]['total_click'])
+    V.append(dico[key]['total_views'])
+    L.append(dico[key]['total_likes'])
+    Co.append(dico[key]['total_comments'])
 
-plt.hist(L,bins = 40)
+
+plt.hist(V,bins = 20)
 plt.show()
+        
+
 
