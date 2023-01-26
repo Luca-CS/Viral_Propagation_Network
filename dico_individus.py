@@ -72,8 +72,8 @@ def age_posts():
 
 
 liste_age, liste_nombre = age_posts()
-plt.plot(liste_age, liste_nombre)
-plt.show()
+#plt.plot(liste_age, liste_nombre)
+#plt.show()
 
 # Number of reposts
 
@@ -101,8 +101,8 @@ def nbr_reposts():
         return(nbr_repost, nbr_people)
 
 
-print(nbr_reposts())
+#print(nbr_reposts())
 
 nbr_repost, nbr_people = nbr_reposts()
-plt.plot(nbr_repost, nbr_people)
-plt.show()
+#plt.plot(nbr_repost, nbr_people)
+#plt.show()
