@@ -2,6 +2,7 @@ import math as ma
 import numpy as np
 from fonctionsutiles import *
 import matplotlib.pyplot as plt
+from dico_individus import *
 
 l0 = [638779430]
 l1 = [953043456]
@@ -53,3 +54,22 @@ gfg = 100*np.random.exponential(1/6, 10000)
 
 count, bins, ignored = plt.hist(gfg, 14, density=True)
 plt.show()
+
+# Génère des reposts:
+
+
+def influ_repost():
+    dico = dico_tot(100)
+    age = []
+    nbr_people_age = 46*[0]
+    esperance_kpi = 43*[0]
+    for n in range(13, 57):
+        age.append(n)
+    for index, row in post_df.iterrows():
+        id = row.user_id
+        user_age = dico[id][age]
+        nbr_people_age[user_age - 13] += 1
+        esperance_kpi[user_age - 13] += esperance_kpi(int(row.post_id))
+    for x in range(43):
+        esperance_kpi[x] = esperance_kpi[x]/nbr_people_age[x]
+    return esperance_kpi
