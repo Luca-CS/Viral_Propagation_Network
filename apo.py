@@ -22,7 +22,7 @@ for index, row in post_df.iterrows():
 # import exponential
 
 # Using exponential() method
-gfg = np.random.exponential(1/6, 10000)
+gfg = 100*np.random.exponential(1/6, 10000)
 
 count, bins, ignored = plt.hist(gfg, 14, density=True)
 plt.show()
