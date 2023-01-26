@@ -58,9 +58,9 @@ def action_number(poster, dico):
 
     followers = int(
         cleaned_account[cleaned_account['id_user'] == poster]['nb_followers'])
-    nb_views = followers*np.random.exponential(1.2, 1)[0]
-    nb_likes = followers*np.random.exponential(6, 1)[0]
-    nb_comments = followers*np.random.exponential(30, 1)[0]
+    nb_views = followers*np.random.exponential(1/1.2, 1)[0]/1.2
+    nb_likes = followers*np.random.exponential(1/6, 1)[0]/6
+    nb_comments = followers*np.random.exponential(1/30, 1)[0]/30
     nb_clicks = np.random.binomial(nb_views, 320/251167)
     nb_donate = np.random.binomial(nb_views, 31/251167)
 
