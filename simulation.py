@@ -6,9 +6,6 @@ import numpy as np
  # This file (main?) will use the other ones to simulate the spreading process
 # Here, we have access to a global dictionnary of vertex characteristics
 
-from numpy.random import choice
-import igraph as ig
-
 # Global variables :
 
 """Dictionnaire des individus
@@ -33,11 +30,8 @@ for index, row in cleaned_account.iterrows():
 network = ig.Graph.DataFrame(edges = edge_df, directed = True)
 
 
-
 # Functions to use
-    
-        
-            
+
 def post(poster,network,scores,dico):
     # To do list : 
     # Likes, comments, site visits, donations, 
@@ -49,7 +43,6 @@ def post(poster,network,scores,dico):
     rank_lst = post_rank(network,poster,scores)
     choice_dic= choose(action_dic, rank_lst)
     dico = action_update(choice_dic,dico)
-
     return dico
 
 def action_number(poster,dico):
@@ -74,7 +67,6 @@ def action_number(poster,dico):
 
 def score(network,dico):
     score_dic = {}
-    # Donne le score global sans prendre en compte les follows
     for user in dico:
         s = 0
         user_d = dico[user]
@@ -106,7 +98,6 @@ def post_rank(graph,poster,score_dic):
 
 def choose(action_dic,rank_lst):
     # Outputs the choice dictionnary where a list reprensetns the user_ids that will do the actions
-    #view_choice = choice(rank_lst, action_dic['view'],p = )
     choice_dic = {'view': [], 'like': [], 'comment': [], 'click': [], 'donate':[]}
     for key in choice_dic:
         choice_dic[key] = rank_lst[:action_dic[key]]
@@ -159,7 +150,6 @@ posts_initiaux(dico,[483543,672702,587566,474227])
 
 for t in range(10):
     update(dico,network)
-
 for key in dico:
     L.append(dico[key]['total_click'])
 
