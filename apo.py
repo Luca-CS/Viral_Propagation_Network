@@ -67,10 +67,23 @@ activite = []
 
 for p in personnes:
     activite.append(int(cleaned_account[cleaned_account['id_user']==p]['nb_posts']))
+    
+    
+followers = []
+
+for p in personnes:
+    followers.append(int(cleaned_account[cleaned_account['id_user']==p]['nb_followers']))
+    
+age = []
+
+for p in personnes:
+    age.append(int(cleaned_account[cleaned_account['id_user']==p]['age']))
 
 listekpi = [kpi0,kpi1,kpi2,kpi3]
-plt.scatter([1,2,3,4],listekpi)
+#plt.scatter([1,2,3,4],listekpi)
 #plt.scatter([1,2,3,4],activite)
+#plt.scatter([1,2,3,4],followers)
+#plt.scatter([1,2,3,4],age)
 plt.xlabel('original poster')
 plt.ylabel('total kpi')
 plt.show()
