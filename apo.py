@@ -3,6 +3,7 @@ import numpy as np
 from fonctionsutiles import *
 import matplotlib.pyplot as plt
 from dico_individus import *
+from kpi import *
 
 l0 = [638779430]
 l1 = [953043456]
@@ -61,7 +62,7 @@ plt.show()
 def influ_repost():
     dico = dico_tot(100)
     age = []
-    nbr_people_age = 46*[0]
+    nbr_people_age = 43*[0]
     esperance_kpi = 43*[0]
     for n in range(13, 57):
         age.append(n)
@@ -69,7 +70,26 @@ def influ_repost():
         id = row.user_id
         user_age = dico[id][age]
         nbr_people_age[user_age - 13] += 1
-        esperance_kpi[user_age - 13] += esperance_kpi(int(row.post_id))
+        esperance_kpi[user_age - 13] += get_kpi(int(row.post_id))
     for x in range(43):
         esperance_kpi[x] = esperance_kpi[x]/nbr_people_age[x]
-    return esperance_kpi
+    plt.scatter(age, esperance_kpi)
+    plt.show
+
+
+def influ_genre():
+    dico = dico_tot(100)
+    genre = [1, 2]
+    nbr_people_genre = [0, 0]
+    esperance_kpi = [0, 0]
+    for index, row in post_df.iterrows():
+        id = row.user_id
+        if dico[id]['genre'] == 'female':
+            nbr_people_genre[1] += 1
+            esperance_kpi[1] += get_kpi(int(row.post_id))
+        else:
+            nbr_people_genre[0] += 1
+            esperance_kpi[0] += get_kpi(int(row.post_id))
+    esperance_kpi[0] *= 1/nbr_people_genre[0]
+    esperance_kpi[1] *= 1/nbr_people_genre[1]
+    plt.scatter
