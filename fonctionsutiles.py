@@ -1,3 +1,5 @@
+# Differentes fonctions utiles en general
+
 import pandas as pd
 
 
@@ -8,19 +10,17 @@ def readcsv(fichier):
     file = pd.read_csv(fichier)
     return file
 
-# Useful functions to clean the dataframes 
 
-
-# Useful functions on account dataframes
+# Fontions pour nettoyer un dataframme
 
 def find_doublon(fichier):
     """_summary_
 
     Args:
-        fichier (chemin): Chemin vers le ficier de la DF
+        fichier (chemin): Chemin vers le ficier de la DF utilisateur
 
     Returns:
-        lst: liste des indices en double
+        lst: liste des indices en double dans le fichier
     """
     file = readcsv(fichier)
     lst_double = []
@@ -42,6 +42,7 @@ def find_doublon(fichier):
 def clean_dataframe(fichier):
     """
     Nettoie les donnes et donne un tableau exploitable en sortie
+    Va enlever les indices en double & les moments où ils aparraissent dans les listes de followers
     Entrée 
         - Chemin du fichier
     Sortie 
@@ -116,6 +117,7 @@ def clean_dataframe(fichier):
 
 
 def clean_posts():
+    # Nettoie la dataframe des post en enlevant ceux des personnes enlevees des utilsiateurs
     lst  = find_doublon('data/instagram_accounts.csv')
     post_df = readcsv('data/instagram_posts_0911_1111.csv')
     
@@ -129,6 +131,7 @@ def clean_posts():
         
 
 def dataframegraph(dataframe):
+    # Cree une datagrame des relations follower - followe
     """_summary_
 
     Args:
@@ -149,8 +152,7 @@ def dataframegraph(dataframe):
     return newnewfile
 
 
-# Useful dataframes
-
+# Generationb des dataframes utiles et nettoyees
 
 account_df = readcsv('data/instagram_accounts.csv')
 cleaned_account = clean_dataframe('data/instagram_accounts.csv')
@@ -162,8 +164,7 @@ post_df = clean_posts()
 
 
 
-# Useful functions about account dataframe
-
+# Fonctions utiles sur les dataframes
 
 def arborescence():
     """_summary_
@@ -207,6 +208,7 @@ def repost_num():
 
 
 def time(row):
+    #Transforme la date d'un post en un temps exploitable
     """_summary_
 
     Args:
@@ -239,6 +241,7 @@ def time(row):
 
 
 def time_of_posts():
+    #Dictionnaire des post associés à leur temps
     dic = {}
 
     for index, row in post_df.iterrows():
@@ -249,6 +252,7 @@ def time_of_posts():
 
 
 def post_num():
+    #Indique le nombre de post de chaque utilsateur dans un dictionnaire
     dic = {}
     for index, row in post_df.iterrows():
         id = row.id_user
@@ -257,8 +261,6 @@ def post_num():
         else:
             dic[id] = 1
     return dic
-
-#print(post_num())    
     
     
 # The following code allowed to check various things, it has useful bits to copy and paste

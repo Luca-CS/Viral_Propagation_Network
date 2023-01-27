@@ -1,8 +1,13 @@
 # Creates graphs from the data and extract information about them
 
+# Import des fonctions utiles
+
 import igraph as ig 
 from fonctionsutiles import edge_df
 import matplotlib.pyplot as plt
+
+# Cree un dictionnaire qui associe les id_user (à 6 chiffres) à des identifiants uniques allant de 0 -> 3500
+
 edge_df.reset_index(drop=True)
 
 name_dic = {}
@@ -17,8 +22,8 @@ for index,row in edge_df.iterrows():
         name_dic[follow] = num
         num += 1
 
-print(len(name_dic))
 
+# Genère la matrice d'adjacence du graphe des follow
 
 
 vertex_num = len(name_dic)
@@ -32,21 +37,8 @@ for index,row in edge_df.iterrows():
     id = name_dic[row['id']]
     follow = name_dic[row['follow']]
     adja[id][follow] = 1
+    
+# Genere le graphe à partir de la matrice
 
 network = ig.Graph.Adjacency(adja) 
 
-print(network.vcount())
-print(network.ecount())
-
-
-
-
-"""network = ig.Graph.DataFrame(edges = edge_df, directed = True)
-
-indegree_list = []
-outdegree_list = []
-for vertex in network.vs:
-    indegree_list.append(vertex.indegree())
-    outdegree_list.append(vertex.outdegree())
-    dico = vertex.attributes()
-"""
