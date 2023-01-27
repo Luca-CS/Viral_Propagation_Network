@@ -234,6 +234,16 @@ def time(row):
         t += 24 * 60
     elif day == '11':
         t += 48 * 60
+    elif day == '12':
+        t += 72 * 60
+    elif day == '13':
+        t += 96 * 60
+    elif day == '14':
+        t += 120 * 60
+    elif day == '15':
+        t += 144 * 60
+    elif day == '16':
+        t += 168 * 60
 
     t += int(hour[0]) * 60 + int(hour[1])
 
